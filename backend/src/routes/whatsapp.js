@@ -181,6 +181,23 @@ router.post('/send-meal-prompt', async (req, res) => {
   });
 
   const data = await response.json();
+  
+  // Demo Magic: Automatically simulate the reply after 10 seconds (as if he tapped Roti + Sabzi)
+  setTimeout(async () => {
+    try {
+      await sendInteractiveButtons(to,
+        'Thank you! Ek chhoti si salaah: kya aap ek roti kam karke, ek katori sabzi ya dal aur kha sakte hain?',
+        [
+          { id: 'try_swap_roti_sabzi', title: "I'll try this" },
+          { id: 'skip_swap', title: "No thanks" }
+        ]
+      );
+      console.log('Simulated auto-swap sent 10s after meal prompt');
+    } catch (e) {
+      console.error('Error in simulated auto-swap', e);
+    }
+  }, 10000);
+
   res.json({ success: true, message: 'Meal prompt sent', data });
 });
 
@@ -202,17 +219,39 @@ router.post('/send-progress', async (req, res) => {
 router.post('/send-wife-tips', async (req, res) => {
   const to = process.env.RAMESH_PHONE; // Assuming we use same test phone for demo
 
-  await sendText(to,
-    '💡 *Is Hafte ki Family Tip*\n\n' +
-    'Sunita ji, agar aloo paratha bana rahi hain to Ramesh ji ke liye ek-do moong dal cheela bhi bana dein. Sugar ke liye accha hota hai. Puri family ke liye healthy hai!\n\n' +
-    'Sujhav:\n' +
-    '❌ Aloo Paratha -> ✅ Moong Dal Cheela\n' +
-    '❌ White Chawal -> ✅ Brown Rice / Daliya\n' +
-    '❌ Biryani -> ✅ Jeera Rice + Raita\n' +
-    '❌ Meetha -> ✅ Gud (small) or Fresh Fruit'
-  );
-
-  res.json({ success: true, message: 'Wife tips sent via WhatsApp' });
+  const response = await fetch(BASE_URL, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${WA_TOKEN}`,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      messaging_product: 'whatsapp',
+      to: to,
+      type: 'interactive',
+      interactive: {
+        type: 'button',
+        header: {
+          type: 'image',
+          image: {
+            link: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop'
+          }
+        },
+        body: {
+          text: 'Namaste Bhabhi ji! Ramesh ji ke liye is hafte ka chhota goal: dinner mein ek roti kam aur sabzi ya dal zyada. Poore ghar ke liye bhi achha rahega.'
+        },
+        action: {
+          buttons: [
+            { type: 'reply', reply: { id: 'wife_ok', title: 'Theek hai' } },
+            { type: 'reply', reply: { id: 'wife_hard', title: 'Mushkil hai' } }
+          ]
+        }
+      }
+    })
+  });
+  
+  const data = await response.json();
+  res.json({ success: true, message: 'Wife tips sent via WhatsApp', data });
 });
 
 export default router;

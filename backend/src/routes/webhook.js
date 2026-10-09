@@ -116,6 +116,26 @@ router.post('/', async (req, res) => {
       if (buttonId === 'skip_swap') {
         await sendText(from, 'No problem! Noted.');
       }
+
+      if (buttonId === 'wife_ok') {
+        // Fast forward simulation
+        await sendText(from, 'Demo Fast-Forward: 7 Days Later...\n\nSunita ji, 5 of 7 dinners done successfully with the new goal. Thank you for your help!');
+      }
+
+      if (buttonId === 'wife_hard') {
+        await sendInteractiveButtons(from, 'Koi baat nahi! Kya aap unke khane mein tel thoda kam aur chawal ki matra aadhi kar sakti hain?', [
+          { id: 'wife_alt_ok', title: 'Haan, yeh theek hai' },
+          { id: 'wife_alt_no', title: 'Nahi' }
+        ]);
+      }
+
+      if (buttonId === 'wife_alt_ok') {
+        await sendText(from, 'Demo Fast-Forward: 7 Days Later...\n\nSunita ji, 5 of 7 dinners done successfully with the new goal. Thank you for your help!');
+      }
+      
+      if (buttonId === 'wife_alt_no') {
+         await sendText(from, 'Bilkool. Hum next week ek naya, aur asaan goal try karenge.');
+      }
     }
 
     // Handle quick reply (meal selection)

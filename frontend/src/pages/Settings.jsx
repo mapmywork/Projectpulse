@@ -101,6 +101,19 @@ export default function Settings() {
           >
             Trigger Meal Notification
           </button>
+          
+          <button 
+            onClick={async (e) => {
+              const btn = e.target;
+              btn.innerText = "Sending...";
+              await fetch((import.meta.env.VITE_API_URL || '') + '/api/send-wife-tips', { method: 'POST' });
+              btn.innerText = "Sent! Check WhatsApp";
+              setTimeout(() => btn.innerText = "Trigger Wife Tip", 2000);
+            }} 
+            style={{ width: '100%', padding: '12px', background: '#d946ef', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', marginTop: '8px' }}
+          >
+            Trigger Wife Tip
+          </button>
         </div>
       </div>
 
