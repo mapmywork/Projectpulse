@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Splash from './pages/Splash';
 import Login from './pages/Login';
 import SonDashboard from './pages/SonDashboard';
 import DoctorDashboard from './pages/DoctorDashboard';
@@ -12,7 +13,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Splash />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/son" element={<SonDashboard />} />
         <Route path="/doctor" element={<DoctorDashboard />} />
         <Route path="/doctor/patient/:id" element={<DoctorPatientDetail />} />
