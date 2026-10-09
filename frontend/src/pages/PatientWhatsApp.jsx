@@ -38,7 +38,7 @@ export default function PatientWhatsApp() {
     }
 
     try {
-      await fetch('/api/webhook', {
+      await fetch((import.meta.env.VITE_API_URL || '') + '/api/webhook', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)

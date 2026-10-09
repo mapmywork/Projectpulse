@@ -14,7 +14,7 @@ export default function Chat() {
     if (!user) navigate('/');
     
     const fetchChat = async () => {
-      const res = await fetch('/api/chat');
+      const res = await fetch((import.meta.env.VITE_API_URL || '') + '/api/chat');
       if (res.ok) setMessages(await res.json());
     };
     
@@ -34,7 +34,7 @@ export default function Chat() {
     const msg = input;
     setInput('');
     
-    await fetch('/api/chat', {
+    await fetch((import.meta.env.VITE_API_URL || '') + '/api/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -161,7 +161,7 @@ export default function Chat() {
       {/* Demo Controls (Invisible to judges unless they look closely) */}
       <div style={{ background: '#f0f2f5', padding: '4px', textAlign: 'center', borderBottom: '1px solid #ddd' }}>
         <button onClick={async () => {
-          await fetch('/api/chat', {
+          await fetch((import.meta.env.VITE_API_URL || '') + '/api/chat', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

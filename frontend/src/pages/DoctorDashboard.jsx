@@ -8,7 +8,7 @@ export default function DoctorDashboard() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(`/api/doctor/patients`);
+      const res = await fetch((import.meta.env.VITE_API_URL || '') + `/api/doctor/patients`);
       if (res.ok) setData(await res.json());
     };
     fetchData();

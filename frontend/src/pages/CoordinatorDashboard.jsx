@@ -7,7 +7,7 @@ export default function CoordinatorDashboard() {
   const [note, setNote] = useState('');
 
   const fetchData = async () => {
-    const res = await fetch(`/api/coordinator/alerts`);
+    const res = await fetch((import.meta.env.VITE_API_URL || '') + `/api/coordinator/alerts`);
     if (res.ok) setData(await res.json());
   };
 
@@ -18,7 +18,7 @@ export default function CoordinatorDashboard() {
   }, []);
 
   const handleResolve = async (id) => {
-    await fetch(`/api/coordinator/resolve`, {
+    await fetch((import.meta.env.VITE_API_URL || '') + `/api/coordinator/resolve`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ alertId: id, note: note || 'Resolved over phone call' })

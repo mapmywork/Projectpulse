@@ -16,7 +16,7 @@ export default function AddLovedOne() {
     
     // Trigger the WhatsApp welcome message to the patient (Ramesh)
     try {
-      await fetch('/api/send-welcome', { method: 'POST' });
+      await fetch((import.meta.env.VITE_API_URL || '') + '/api/send-welcome', { method: 'POST' });
     } catch (error) {
       console.error('Failed to send welcome message', error);
     }

@@ -10,7 +10,7 @@ export default function BookTest() {
     setIsSubmitting(true);
     
     try {
-      await fetch('/api/send-appointment', { method: 'POST' });
+      await fetch((import.meta.env.VITE_API_URL || '') + '/api/send-appointment', { method: 'POST' });
     } catch (e) {
       console.error(e);
     }

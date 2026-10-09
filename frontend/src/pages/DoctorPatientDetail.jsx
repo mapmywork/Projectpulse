@@ -9,14 +9,14 @@ export default function DoctorPatientDetail() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(`/api/doctor/summary/${id}`);
+      const res = await fetch((import.meta.env.VITE_API_URL || '') + `/api/doctor/summary/${id}`);
       if (res.ok) setData(await res.json());
     };
     fetchData();
   }, [id]);
 
   const handleReview = async () => {
-    await fetch(`/api/doctor/review/${id}`, { method: 'POST' });
+    await fetch((import.meta.env.VITE_API_URL || '') + `/api/doctor/review/${id}`, { method: 'POST' });
     navigate('/doctor');
   };
 
