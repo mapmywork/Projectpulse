@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Splash from './pages/Splash';
-import Login from './pages/Login';
 import AddLovedOne from './pages/AddLovedOne';
 import AddMedicines from './pages/AddMedicines';
 import ConfirmSchedule from './pages/ConfirmSchedule';
@@ -21,7 +20,6 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Splash />} />
-        <Route path="/login" element={<Login />} />
         <Route path="/add-loved-one" element={<AddLovedOne />} />
         <Route path="/add-medicines" element={<AddMedicines />} />
         <Route path="/confirm-schedule" element={<ConfirmSchedule />} />

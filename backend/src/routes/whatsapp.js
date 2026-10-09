@@ -234,7 +234,7 @@ router.post('/send-wife-tips', async (req, res) => {
         header: {
           type: 'image',
           image: {
-            link: 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop'
+            link: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Good_Food_Display_-_NCI_Visuals_Online.jpg/800px-Good_Food_Display_-_NCI_Visuals_Online.jpg'
           }
         },
         body: {

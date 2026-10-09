@@ -30,7 +30,7 @@ export default function AddLovedOne() {
       
       {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', marginBottom: '32px', marginTop: '16px' }}>
-        <div style={{ cursor: 'pointer', paddingRight: '16px' }} onClick={() => navigate('/login')}>
+        <div style={{ cursor: 'pointer', paddingRight: '16px' }} onClick={() => navigate('/')}>
           <span style={{ fontSize: '24px', fontWeight: 'bold' }}>←</span>
         </div>
         <h1 style={{ fontSize: '20px', fontWeight: 'bold', margin: '0 auto', paddingRight: '40px' }}>

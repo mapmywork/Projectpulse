@@ -121,7 +121,10 @@ export default function Splash() {
       {/* Bottom Section - Buttons */}
       <div style={{ textAlign: 'center' }}>
         <button 
-          onClick={() => navigate('/login')} 
+          onClick={() => {
+            localStorage.setItem('user', JSON.stringify({ role: 'son', accessCode: 'SON2026' }));
+            navigate('/add-loved-one');
+          }} 
           className="btn" 
           style={{ 
             width: '100%', 
@@ -136,10 +139,13 @@ export default function Splash() {
           Set up for a loved one
         </button>
         <p style={{ fontSize: '14px', color: '#4a4a4a' }}>
-          Already have an account? <span 
-            onClick={() => navigate('/login')}
+          Are you a Doctor? <span 
+            onClick={() => {
+              localStorage.setItem('user', JSON.stringify({ role: 'doctor', accessCode: 'DOC2026' }));
+              navigate('/doctor');
+            }}
             style={{ color: '#2563eb', fontWeight: '600', cursor: 'pointer' }}
-          >Sign in</span>
+          >Go to Clinic Dashboard</span>
         </p>
       </div>
 
