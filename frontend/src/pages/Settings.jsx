@@ -88,6 +88,19 @@ export default function Settings() {
           >
             Login as Coordinator
           </button>
+          
+          <button 
+            onClick={async (e) => {
+              const btn = e.target;
+              btn.innerText = "Sending...";
+              await fetch((import.meta.env.VITE_API_URL || '') + '/api/send-meal-prompt', { method: 'POST' });
+              btn.innerText = "Sent! Check WhatsApp";
+              setTimeout(() => btn.innerText = "Trigger Meal Notification", 2000);
+            }} 
+            style={{ width: '100%', padding: '12px', background: 'var(--primary)', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer', marginTop: '12px' }}
+          >
+            Trigger Meal Notification
+          </button>
         </div>
       </div>
 
