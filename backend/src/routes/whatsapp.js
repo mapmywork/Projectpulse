@@ -161,18 +161,18 @@ router.post('/send-meal-prompt', async (req, res) => {
       type: 'interactive',
       interactive: {
         type: 'list',
-        body: { text: 'Ramesh ji, dopahar ka khana kya khaya aaj?' },
+        body: { text: 'Namaste Ramesh ji, aaj dopahar mein kya khaya?' },
         action: {
           button: 'Khana chunein',
           sections: [{
             title: 'Aaj ka khana',
             rows: [
-              { id: 'paratha', title: 'Paratha', description: 'Aloo ya gobi paratha' },
-              { id: 'chawal_dal', title: 'Chawal + Dal', description: 'White chawal aur dal' },
+              { id: 'dal_rice', title: 'Dal + Rice', description: 'Chawal aur dal' },
               { id: 'roti_sabzi', title: 'Roti + Sabzi', description: 'Chapati aur sabzi' },
-              { id: 'biryani', title: 'Biryani / Pulao', description: 'Rice dish' },
-              { id: 'daliya', title: 'Daliya / Oats', description: 'Healthy option' },
-              { id: 'fruit', title: 'Fruit', description: 'Fresh fruit' }
+              { id: 'rajma_chawal', title: 'Rajma Chawal', description: 'Rajma aur chawal' },
+              { id: 'khichdi', title: 'Khichdi', description: 'Halka khana' },
+              { id: 'aloo_paratha', title: 'Aloo Paratha', description: 'Stuffed paratha' },
+              { id: 'other_meal', title: 'Other', description: 'Kuch aur khaya' }
             ]
           }]
         }

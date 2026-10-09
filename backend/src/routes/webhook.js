@@ -101,6 +101,21 @@ router.post('/', async (req, res) => {
         await sendText(from, 'Ramesh ji, aapki baat sunne ke liye coordinator aapko call karenge. Fikar mat kijiye.');
         console.log('Emergency created — feeling unwell');
       }
+
+      if (buttonId.startsWith('try_swap_')) {
+        const mealId = buttonId.replace('try_swap_', '');
+        await pool.query(`
+          UPDATE meals 
+          SET swap_accepted = TRUE 
+          WHERE patient_id = 1 AND plate = $1
+        `, [mealId]); // Simple update for the hackathon demo
+        await sendText(from, 'Great! The meal and the swap are counted for your weekly summary.');
+        console.log(`Swap accepted for: ${mealId}`);
+      }
+
+      if (buttonId === 'skip_swap') {
+        await sendText(from, 'No problem! Noted.');
+      }
     }
 
     // Handle quick reply (meal selection)
@@ -110,12 +125,16 @@ router.post('/', async (req, res) => {
 
       // Map meal to swap suggestion
       const swaps = {
-        'paratha': { swap: 'moong dal cheela', msg: 'Agar paratha ki jagah moong dal cheela banaye to sugar ke liye accha hoga.' },
-        'chawal_dal': { swap: 'brown rice + dal', msg: 'White chawal ki jagah brown rice ya daliya try karein. Sugar kam badhta hai.' },
-        'biryani': { swap: 'jeera rice + raita', msg: 'Biryani ki jagah jeera rice aur raita (chhota) try karein. Halka hota hai.' },
-        'roti_sabzi': { swap: null, msg: 'Bahut accha choice! Roti sabzi healthy hai. Keep it up!' },
-        'daliya': { swap: null, msg: 'Bahut accha! Daliya sugar ke liye best hai.' },
-        'fruit': { swap: null, msg: 'Fresh fruit accha hai! Mango aur banana zyada mat khaiye.' }
+        'aloo_paratha': { swap: 'moong dal cheela', msg: 'Agar paratha ki jagah moong dal cheela banaye to sugar ke liye accha hoga.' },
+        'dal_rice': { swap: 'brown rice + dal', msg: 'White chawal ki jagah brown rice ya daliya try karein. Sugar kam badhta hai.' },
+        'rajma_chawal': { swap: 'less chawal + extra salad', msg: 'Chawal ki matra thodi kam karke salad aur badha lein.' },
+        'khichdi': { swap: null, msg: 'Bahut accha! Khichdi sugar ke liye best hai.' },
+        'roti_sabzi': { 
+          swap: 'one less roti + extra sabzi', 
+          msg: 'Thank you! Ek chhoti si salaah: kya aap ek roti kam karke, ek katori sabzi ya dal aur kha sakte hain?',
+          interactive: true
+        },
+        'other_meal': { swap: null, msg: 'Thank you! Logged.' }
       };
 
       const swap = swaps[mealId] || { swap: null, msg: 'Accha choice!' };
@@ -125,7 +144,14 @@ router.post('/', async (req, res) => {
         VALUES (1, 'lunch', $1, $2, FALSE)
       `, [mealId, swap.swap]);
 
-      await sendText(from, swap.msg);
+      if (swap.interactive) {
+        await sendInteractiveButtons(from, swap.msg, [
+          { id: 'try_swap_' + mealId, title: "I'll try this" },
+          { id: 'skip_swap', title: "No thanks" }
+        ]);
+      } else {
+        await sendText(from, swap.msg);
+      }
       console.log(`Meal logged: ${mealId}`);
     }
 
