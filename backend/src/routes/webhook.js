@@ -38,6 +38,41 @@ router.post('/', async (req, res) => {
     if (type === 'interactive') {
       const buttonId = message.interactive?.button_reply?.id;
 
+      if (buttonId === 'accept_invite') {
+        await pool.query(`
+          UPDATE patients SET onboarding_status = 'completed' WHERE id = 1
+        `);
+        await sendText(from, 'Dhanyawad Ramesh ji! Aapka setup complete ho gaya hai. Hum aapko dawai aur khane yaad dilate rahenge.');
+        console.log('Invite accepted by Ramesh');
+      }
+
+      if (buttonId === 'decline_invite') {
+        await sendText(from, 'Theek hai Ramesh ji. Koi jankari share nahi ki jayegi.');
+        console.log('Invite declined by Ramesh');
+      }
+
+      if (buttonId === 'start_routine') {
+        await sendText(from, 'Bahut badiya Ramesh ji! Aaj se hum roz aapko dawai aur khane ka yaad dilayenge.');
+        console.log('Routine started by Ramesh');
+
+        // Demo Magic Part 3: Send first medicine reminder 5 seconds later
+        setTimeout(async () => {
+          try {
+            await sendInteractiveButtons(from,
+              'Ramesh ji, aaj subah ki dawai (Metformin 500mg) li ki nahi?',
+              [
+                { id: 'dose_taken', title: 'Le li' },
+                { id: 'dose_later', title: 'Baad mein' },
+                { id: 'feeling_unwell', title: 'Tabiyat theek nahi' }
+              ]
+            );
+            console.log('Simulated first medicine reminder sent 5s later');
+          } catch (e) {
+            console.error('Error sending medicine reminder', e);
+          }
+        }, 5000);
+      }
+
       if (buttonId === 'dose_taken') {
         // Mark the latest pending dose as taken
         await pool.query(`

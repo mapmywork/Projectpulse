@@ -6,13 +6,13 @@ export default function Settings() {
   const user = JSON.parse(localStorage.getItem('user'));
 
   if (!user) {
-    navigate('/');
+    navigate('/login');
     return null;
   }
 
   const handleLogout = () => {
     localStorage.removeItem('user');
-    navigate('/');
+    navigate('/login');
   };
 
   return (
@@ -65,6 +65,31 @@ export default function Settings() {
       <button onClick={handleLogout} className="btn" style={{ width: '100%', background: 'var(--red)', color: 'white', marginTop: '10px' }}>
         Log Out
       </button>
+
+      {/* Demo Shortcuts */}
+      <div style={{ marginTop: '24px', padding: '16px', background: '#e0e7ff', borderRadius: '12px', marginBottom: '80px' }}>
+        <h3 style={{ fontSize: '14px', marginBottom: '12px', color: '#4f46e5', textAlign: 'center' }}>Demo Shortcuts</h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+          <button 
+            onClick={() => {
+              localStorage.removeItem('user');
+              navigate('/login', { state: { email: 'doctor@gmail.com', password: 'doc2026' } });
+            }} 
+            style={{ width: '100%', padding: '12px', background: 'white', color: '#4f46e5', border: '1px solid #c7d2fe', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}
+          >
+            Login as Doctor
+          </button>
+          <button 
+            onClick={() => {
+              localStorage.removeItem('user');
+              navigate('/login', { state: { email: 'coordinator@gmail.com', password: 'coord2026' } });
+            }} 
+            style={{ width: '100%', padding: '12px', background: 'white', color: '#4f46e5', border: '1px solid #c7d2fe', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}
+          >
+            Login as Coordinator
+          </button>
+        </div>
+      </div>
 
       <BottomNav />
     </div>

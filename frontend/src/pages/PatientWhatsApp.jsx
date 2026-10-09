@@ -9,14 +9,12 @@ export default function PatientWhatsApp() {
     {
       id: 1,
       sender: 'bot',
-      text: 'Ramesh ji, subah ki dawai ka samay ho gaya hai.\nMetformin 500mg leni hai.',
+      text: 'Namaste Ramesh ji\nYour son Rahul has invited you to Pulse to help you manage your diabetes.\nYou decide what information is shared with your family.',
       type: 'buttons',
       options: [
-        { id: 'dose_taken', title: 'Le li ✅' },
-        { id: 'dose_later', title: 'Baad mein ⏳' },
-        { id: 'feeling_unwell', title: 'Tabiyat theek nahi 🤒' }
+        { id: 'review_continue', title: 'Review & Continue' }
       ],
-      time: '08:00 AM'
+      time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
     }
   ]);
 
@@ -58,7 +56,21 @@ export default function PatientWhatsApp() {
     // Trigger webhook and fake bot response
     setTimeout(async () => {
       let botReply = '';
-      if (optionId === 'dose_taken') {
+      if (optionId === 'review_continue') {
+        botReply = 'Bharteeya kanoon (DPDP Act 2023) ke anusar, humein aapka health data (BP, khana, dawai) aapke bete Rahul aur Dr. Mehra ke sath share karne ke liye aapki anumati chahiye.\n\nPurpose: Aapki behtar care aur doctor consultation ke liye.\n\nKya aap sahmat (agree) hain?';
+        setMessages(prev => [...prev, {
+          id: Date.now(),
+          sender: 'bot',
+          text: botReply,
+          type: 'buttons',
+          options: [
+            { id: 'consent_yes', title: 'Haan, Agree ✅' },
+            { id: 'consent_no', title: 'Nahi ❌' }
+          ],
+          time: new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})
+        }]);
+        return;
+      } else if (optionId === 'dose_taken') {
         botReply = 'Bahut accha Ramesh ji! Dawai le li. Keep it up! ✅';
         await simulateWebhook('taken');
       } else if (optionId === 'dose_later') {
